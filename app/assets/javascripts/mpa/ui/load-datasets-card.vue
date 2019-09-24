@@ -57,7 +57,7 @@
                     <v-card-text>
                         <h3>Load data from the PRIDE archive</h3>
                         <p>You can easily load data from the <a href="http://www.ebi.ac.uk/pride/" target="_blank">PRIDE</a> data repository. Simply enter an assay id (e.g. 8500) in the field below and click the 'Load PRIDE Dataset' button. The corresponding dataset will then be fetched using the PRIDE API and loaded into the search form on the left.</p>
-                        <v-form ref="prideAssayForm">
+                        <v-form ref="prideAssayForm" @submit.prevent>
                             <v-text-field label="Assay id" placeholder="e.g. 8500" :disabled="prideLoading || pendingStore" v-model="prideAssay" :rules="[value => !!value || 'Please enter a valid PRIDE assay number']" clearable></v-text-field>
                         </v-form>
                         <div class="search-buttons-centered">

@@ -1,5 +1,5 @@
 <template>
-    <v-form ref="datasetForm">
+    <v-form ref="datasetForm" @submit.prevent>
         <v-textarea name="qs" label="Peptide list" :rows="7" v-model="peptideModel" :disabled="loading" :rules="[value => !!value || 'At least one peptide is required']" spellcheck="false"></v-textarea>
         <v-tooltip top>
             <template v-slot:activator="{ on }">
