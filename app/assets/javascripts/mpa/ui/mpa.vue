@@ -15,6 +15,7 @@
     import MpaAnalysisManager from "../MpaAnalysisManager";
     import DatasetManager from "../DatasetManager";
     import { StorageType } from "../StorageType";
+import { cpus } from "os";
 
     @Component({
         components: {MpaAnalysis, MpaHome}
@@ -22,12 +23,12 @@
     export default class Mpa extends Vue {
         @Prop({default: ""})
         public peptides: string;
-        @Prop({default: true})
-        public il: boolean;
-        @Prop({default: true})
-        public dupes: boolean;
-        @Prop({default: false})
-        public missed: boolean;
+        @Prop({default: "true"})
+        public il: string;
+        @Prop({default: "true"})
+        public dupes: string;
+        @Prop({default: "false"})
+        public missed: string;
         @Prop({default: ""})
         public searchName: string;
 
@@ -36,16 +37,16 @@
                 const storageManager: DatasetManager = new DatasetManager();
                 const dataset: PeptideContainer = new PeptideContainer();
                 dataset.setName(this.searchName);
-                dataset.setPeptides(this.peptides.split(/\\n/));
+                dataset.setPeptides(this.peptides.split(/\n/));
                 dataset.setDate(new Date());
                 dataset.setType(StorageType.SessionStorage);
 
                 this.$store.dispatch('setSearchSettings', {
-                    il: this.il,
-                    dupes: this.dupes,
-                    missed: this.missed
-                })
-
+                    il: this.il === "true",
+                    dupes: this.dupes === "true",
+                    missed: this.missed === "true"
+                });
+            
                 dataset.store().then(() => {
                     this.$store.dispatch('selectDataset', dataset);
                     this.$store.dispatch('setAnalysis', true);

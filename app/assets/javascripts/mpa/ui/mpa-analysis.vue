@@ -38,6 +38,8 @@
     export default class MpaAnalysis extends Vue {
         created() {
             for (let dataset of this.$store.getters.selectedDatasets) {
+                console.log("PROCESSING SET: ");
+                console.log(dataset);
                 this.$store.dispatch('processDataset', dataset);
             }
         }

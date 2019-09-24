@@ -23,10 +23,10 @@
                         </v-list-tile-action>
                         <v-list-tile-content>
                             <v-list-tile-title>
-                                {{ dataset.getName() }}
+                                {{ dataset.getName() !== "" ? dataset.getName() : "Unnamed" }}
                             </v-list-tile-title>
                             <v-list-tile-sub-title>
-                                {{ dataset.getAmountOfPeptides() }} peptides
+                                {{ dataset.getAmountOfPeptides() }} {{ dataset.getAmountOfPeptides() > 1 ? "peptides" : "peptide" }}
                             </v-list-tile-sub-title>
                         </v-list-tile-content>
 
