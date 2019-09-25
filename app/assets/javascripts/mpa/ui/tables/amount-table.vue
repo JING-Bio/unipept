@@ -71,6 +71,7 @@
     import TaxaDataSource from "../../datasource/TaxaDataSource";
     import Tree from "../../Tree";
     import Treeview from "../visualizations/treeview.vue";
+    import { triggerDownloadModal } from "../../../utils.js"; 
 
     @Component({
         components: {
@@ -139,8 +140,8 @@
         private saveImage(term: FAElement): void {
             logToGoogle("Multi peptide", "Save Image for FA");
             // Hack to get a reference to the SVG DOM-element
-            //@ts-ignore
-            triggerDownloadModal(document.getElementById(`TreeView-${term.code}`).getElementsByTagName("svg")[0], null, `unipept_treeview_${goTerm.code}`);
+            // @ts-ignore
+            triggerDownloadModal(document.getElementById(`TreeView-${term.code}`).getElementsByTagName("svg")[0], null, `unipept_treeview_${term.code}`);
         }
 
         private saveTableAsCSV(): void {
