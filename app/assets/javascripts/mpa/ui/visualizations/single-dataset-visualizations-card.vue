@@ -230,30 +230,14 @@
         }
 
         private openHeatmapWizard(): void {
+            let oldTab: number = this.tab;
             this.dialogOpen = true;
+            // Hack to stop the heatmap-tab from resetting the currently selected tab
+            // TODO: this should be improved by maybe changing the position of the heatmap-button.
+            setTimeout(() => this.tab = oldTab, 100);
         }
     }
 </script>
 
-<style scoped>
-    /* .fullscreen-nav {
-        position: absolute;
-        z-index: 1;
-        right: 16px;
-        top: 16px;
-    }
-
-    .unipept-logo {
-        z-index: 100;
-        position: absolute;
-        top: 10px;
-        left: 10px;
-    }
-
-    .fullScreenButtons {
-        position: absolute;
-        z-index: 10;
-        right: 16px;
-        top: 5px;
-    } */
+<style>
 </style>
