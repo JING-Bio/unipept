@@ -40,6 +40,12 @@
                     </v-list>
                 </v-menu>
             </v-tabs>
+            <div id="fa-filter-warning" v-if="this.$store.getters.selectedTaxonId !== -1">
+                <strong>Filtered results: </strong> 
+                These results are limited to the {{ this.filteredSequencesLength }} peptides specific to 
+                <strong class="mpa-fa-scope">{{ this.$store.getters.selectedTerm }}</strong>.
+                <v-btn @click="reset()">Undo</v-btn>
+            </div>
             <v-tabs-items v-model="currentTab">
                 <v-tab-item>
                     <v-card flat>
@@ -163,6 +169,8 @@
 
         private ecTrustLine: string = "";
         private goTrustLine: string = "";
+
+        private filteredSequencesLength: number = 0;
 
         private formatType: string = "int";
 
@@ -337,6 +345,7 @@
                 if (taxonId > 0) {
                     let tree = await taxaSource.getTree();
                     sequences = tree.getAllSequences(taxonId);
+                    this.filteredSequencesLength = sequences.length;
                     let taxonData = tree.nodes.get(taxonId);
                     this.filteredScope = `${taxonData.name} (${taxonData.rank})`;
                 }
