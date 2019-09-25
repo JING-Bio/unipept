@@ -394,6 +394,8 @@
          * @return
          */
         private computeTrustLine(trust: FATrust, kind: string): string {
+            console.log("Trust for " + kind);
+            console.log(trust);
             if (trust.annotatedCount === 0) {
                 return `<strong>No peptide</strong> has a ${kind} assigned to it. `;
             }
