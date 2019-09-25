@@ -37,14 +37,14 @@
                                 </a>
                             </small>
                             <br>
-                            <span class="form-inline">
-                                <select class="form-control dataset" v-model="selectedSampleDataset[dataset.id]">
-                                    <option v-for="data of dataset.datasets" v-bind:value="data" v-bind:key="data.id">{{ data.name }}</option>
-                                </select>
-                                <v-btn @click="storeSampleDataset(dataset.id)">
-                                    Load dataset
-                                </v-btn>
-                            </span>
+                            <v-layout wrap align-center>
+                                <v-flex sm8>
+                                    <v-select :items="dataset.datasets" item-text="name" v-model="selectedSampleDataset[dataset.id]"></v-select>
+                                </v-flex>
+                                <v-flex sm4>
+                                    <v-btn @click="storeSampleDataset(dataset.id)">Load dataset</v-btn>
+                                </v-flex>
+                            </v-layout>
                         </p>
                     </v-card-text>
                 </v-card>
@@ -132,6 +132,7 @@
     import {StorageType} from "../StorageType";
     import Snackbar from "../../components/snackbar/snackbar.vue";
     import axios from "axios"
+    import SampleDatasetCollection from "../SampleDatasetCollection";
     import SampleDataset from "../SampleDataset";
     import Tooltip from "./custom/tooltip.vue";
 
@@ -152,7 +153,7 @@
         }
 
         private storedDatasets = this.$store.getters.storedDatasets;
-        private sampleDatasets: SampleDataset[] = [];
+        private sampleDatasets: SampleDatasetCollection[] = [];
         private prideAssay: string = "";
 
         private createPeptides: string = "";
@@ -173,11 +174,13 @@
             axios.post("/datasets/sampledata")
                 .then(result => {
                     for (let item of result.data.sample_data) {
-                        let itemDatasets = item.datasets;
+                        let itemDatasets = item.datasets.map((el) => new SampleDataset(el.name, el.data, el.order));
+
                         itemDatasets = itemDatasets.sort((a, b) => {
                             return a.order < b.order;
                         });
-                        this.sampleDatasets.push(new SampleDataset(
+
+                        this.sampleDatasets.push(new SampleDatasetCollection(
                             item.id,
                             item.environment,
                             item.project_website,
@@ -185,14 +188,16 @@
                             item.url,
                             itemDatasets
                         ));
-                        this.selectedSampleDataset[item.id] = itemDatasets[0];
+                        this.selectedSampleDataset[item.id] = itemDatasets[0].name;
                     }
                 });
         }
 
         storeSampleDataset(datasetId: string) {
             if (this.selectedSampleDataset[datasetId]) {
-                this.storeDataset(this.selectedSampleDataset[datasetId].data.join("\n"), this.selectedSampleDataset[datasetId].name, true);
+                let sampleDatasetCollection: SampleDatasetCollection = this.sampleDatasets.find((dataset) => dataset.id == datasetId);
+                let sampleSet: SampleDataset = sampleDatasetCollection.datasets.find((dataset) => dataset.name == this.selectedSampleDataset[datasetId]);
+                this.storeDataset(sampleSet.data.join("\n"), sampleSet.name, false);
             }
         }
 
