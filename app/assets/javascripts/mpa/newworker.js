@@ -379,6 +379,7 @@ function summarizeFa(extract, countExtractor, trustExtractor, nameByCode, namesp
         }
     }
 
+
     return {
         trust: {
             trustCount: sumTrust,
