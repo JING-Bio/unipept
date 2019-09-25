@@ -85,7 +85,7 @@
                     </v-card>
                 </v-tab-item>
                 <v-tab-item>
-                    <v-card flat>
+                    <v-card flat id="treeviewWrapper">
                         <treeview-visualization ref="treeview" :full-screen="isFullScreen" v-if="$store.getters.activeDataset && $store.getters.activeDataset.progress === 1" :dataset="$store.getters.activeDataset"></treeview-visualization>
                         <div v-else class="mpa-waiting">
                             <img :alt="waitString" class="mpa-placeholder" src="/images/mpa/placeholder_treeview.svg">
@@ -220,7 +220,7 @@
             logToGoogle("Multi Peptide", "Save Image", this.tabs[this.tab]);
             if (this.tabs[this.tab] === "Sunburst") {
                 d3.selectAll(".toHide").attr("class", "arc hidden");
-                triggerDownloadModal("#sunburstWrapper svg", null, "unipept_sunburst");
+                triggerDownloadModal(".unipept-sunburst svg", null, "unipept_sunburst");
                 d3.selectAll(".hidden").attr("class", "arc toHide");
             } else if (this.tabs[this.tab] === "Treemap") {
                 triggerDownloadModal(null, "#treemap", "unipept_treemap");
