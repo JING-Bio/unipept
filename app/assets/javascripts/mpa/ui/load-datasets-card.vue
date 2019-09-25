@@ -170,6 +170,7 @@
 
         private selectedSampleDataset = {};
 
+
         mounted() {
             axios.post("/datasets/sampledata")
                 .then(result => {
@@ -194,7 +195,8 @@
         }
 
         storeSampleDataset(datasetId: string) {
-            if (this.selectedSampleDataset[datasetId]) {
+            let name: string = this.selectedSampleDataset[datasetId];
+            if (name && !this.$store.getters.selectedDatasets.some((dataset) => dataset.name === name)) {
                 let sampleDatasetCollection: SampleDatasetCollection = this.sampleDatasets.find((dataset) => dataset.id == datasetId);
                 let sampleSet: SampleDataset = sampleDatasetCollection.datasets.find((dataset) => dataset.name == this.selectedSampleDataset[datasetId]);
                 this.storeDataset(sampleSet.data.join("\n"), sampleSet.name, false);
@@ -229,14 +231,12 @@
         }
 
         storePrideDataset() {
-            //@ts-ignore
             if (this.$refs.prideDatasetForm.isValid()) {
                 this.storeDataset(this.pridePeptides, this.prideName, this.prideSave);
             }
         }
 
         storeCreatedDataset() {
-            // @ts-ignore
             if (this.$refs.createdDatasetForm.isValid()) {
                 this.storeDataset(this.createPeptides, this.createName, this.createSave);
             }
