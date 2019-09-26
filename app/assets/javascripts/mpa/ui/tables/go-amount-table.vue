@@ -1,5 +1,5 @@
 <template>
-    <amount-table :items="items" :searchSettings="searchSettings" :taxaRetriever="taxaRetriever"></amount-table>
+    <amount-table :items="items" :searchSettings="searchSettings" :taxaRetriever="taxaRetriever" :table-file-name="'GO_terms-' + this.namespace.replace(' ', ' ') + '-export'"></amount-table>
 </template>
 
 <script lang="ts">

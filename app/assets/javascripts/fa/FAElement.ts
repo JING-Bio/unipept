@@ -27,4 +27,6 @@ export default abstract class FAElement extends Element {
     public async getAffectedPeptides(sample: Sample): Promise<string[]> {
         return this.affectedPeptides;
     }
+
+    
 }

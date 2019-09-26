@@ -1,5 +1,5 @@
 <template>
-    <amount-table :items="items" :searchSettings="searchSettings" :taxaRetriever="taxaRetriever"></amount-table>
+    <amount-table :items="items" :searchSettings="searchSettings" :taxaRetriever="taxaRetriever" :table-file-name="'EC_Numbers-export'"></amount-table>
 </template>
 
 <script lang="ts">

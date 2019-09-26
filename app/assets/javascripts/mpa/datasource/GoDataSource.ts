@@ -6,6 +6,7 @@ import FATrust from "../../fa/FATrust";
 import sha256 from "crypto-js/sha256";
 import { MPAFAResult } from "../newworker";
 import { CachedDataSource } from "./CachedDataSource";
+import Sample from "../Sample";
 
 /**
  * A GoDataSource can be used to access all GoTerms associated with a specific Sample. Note that this class contains
@@ -76,6 +77,14 @@ export default class GoDataSource extends CachedDataSource<GoNameSpace, GoTerm> 
             return this.agregateTrust(trusts);
         }
         
+    }
+
+    public async getPeptidesForGoTerm(term: GoTerm, sample: Sample): Promise<string[]> {
+        let sequencesForTerm: string[] = await term.getAffectedPeptides(sample);
+        let worker = await this._repository.getWorker();
+        let result = await worker.getPeptidesByFA(term.name, sequencesForTerm);
+        console.log(result);
+        return result;
     }
 
     protected async computeTerms(percent = 50, sequences = null): Promise<[Map<GoNameSpace, GoTerm[]>, Map<GoNameSpace, FATrust>]> {

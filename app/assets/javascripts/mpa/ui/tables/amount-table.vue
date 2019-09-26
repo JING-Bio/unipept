@@ -28,7 +28,7 @@
                         {{ term.name }}
                     </td>
                     <td style="width: 6em; text-align: right;">
-                        <span class="glyphicon glyphicon-download glyphicon-inline down btn-icon" title="" role="button" tabindex="0" data-original-title="Download CSV of the matched peptides"></span>
+                        <span class="glyphicon glyphicon-download glyphicon-inline down btn-icon" title="" role="button" tabindex="0" data-original-title="Download CSV of the matched peptides" @click.stop="saveRowAsCsv(term)"></span>
                     </td>
                     <td class="glyphicon glyphicon-inline amounttable-chevron">
                     </td>
@@ -71,7 +71,7 @@
     import TaxaDataSource from "../../datasource/TaxaDataSource";
     import Tree from "../../Tree";
     import Treeview from "../visualizations/treeview.vue";
-    import { triggerDownloadModal } from "../../../utils.js"; 
+    import { triggerDownloadModal, downloadDataByForm } from "../../../utils.js"; 
 
     @Component({
         components: {
@@ -85,6 +85,8 @@
         protected searchSettings: FaSortSettings;
         @Prop({required: true})
         protected taxaRetriever: (term: FAElement) => Promise<Node>;
+        @Prop({required: true})
+        protected tableFileName: string;
 
         // The amount of items that's always visible in the table (thus the table's minimum length)
         protected initialItemsVisible: number = 5;
@@ -147,8 +149,18 @@
         private saveTableAsCSV(): void {
             let columnNames: string[] = ["Peptides", "GO term", "Name"];
             let grid: string[][] = this.items.map(term => [term.popularity.toString(), term.code, term.name]);
-            // TODO: check!
-            // downloadDataByForm(this.toCSV(columnNames, grid), "GO_terms-" + this.namespace.replace(" ", "_") + "-export.csv", "text/csv");
+            downloadDataByForm(this.toCSV(columnNames, grid), this.tableFileName + ".csv", "text/csv");
+        }
+
+        private saveRowAsCSV(term: FAElement) {
+            // const result = [[
+            //     "peptide",
+            //     "spectral count",
+            //     "matching proteins",
+            //     "matching proteins with " + name,
+            //     "percentage proteins with " + name,
+            //     "lca",
+            // ]].concat(term)
         }
     }
 </script>
