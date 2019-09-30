@@ -1,6 +1,7 @@
 class DatasetsController < ApplicationController
   before_action :default_format_json, only: %i[sampledata]
   before_action :authorize, only: %i[new edit create update destroy]
+  before_action :set_headers, only: %i[sampledata]
 
   # GET /datasets
   # GET /datasets.xml
@@ -91,6 +92,15 @@ class DatasetsController < ApplicationController
     @header_class = 'MPA'
     @type = params[:type]
     @id = params[:id]
+  end
+
+  # enable cross origin requests
+  def set_headers
+    headers['Access-Control-Allow-Origin'] = '*'
+    headers['Access-Control-Expose-Headers'] = 'ETag'
+    headers['Access-Control-Allow-Methods'] = 'GET, POST'
+    headers['Access-Control-Allow-Headers'] = '*,x-requested-with,Content-Type,If-Modified-Since,If-None-Match'
+    headers['Access-Control-Max-Age'] = '86400'
   end
 
   def sampledata
