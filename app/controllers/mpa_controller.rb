@@ -1,6 +1,6 @@
 class MpaController < ApplicationController
+  before_action :set_headers, only: %i[pept2data handle_options_request]
   before_action :default_format_json, except: ['analyze']
-  before_action :set_headers, only: %[pept2data]
   skip_before_action :verify_authenticity_token
 
   # enable cross origin requests
@@ -20,6 +20,11 @@ class MpaController < ApplicationController
     @il = params[:il].present?
     @dupes = params[:dupes].present?
     @missed = params[:missed].present?
+  end
+
+  def handle_options_request
+    puts "Handeling options"
+    head(:ok) if request.request_method == "OPTIONS"
   end
 
   def pept2data

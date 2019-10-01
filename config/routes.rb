@@ -37,6 +37,7 @@ UnipeptWeb::Application.routes.draw do
   get '/search/sequence', :to => 'sequences#search', :as => 'sequence_search'
 
   scope :mpa, as: 'mpa' do
+    match 'pept2data', via: [:options], :to => "mpa#handle_options_request"
     match "/",        via: [:get, :post], :to => "mpa#analyze"
     match "pept2data", via: [:get, :post], :to => "mpa#pept2data"
   end
