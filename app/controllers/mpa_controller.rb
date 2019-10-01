@@ -1,5 +1,5 @@
 class MpaController < ApplicationController
-  before_action :set_headers, only: %i[pept2data handle_options_request]
+  before_action :set_headers, only: %i[pept2data]
   before_action :default_format_json, except: ['analyze']
   skip_before_action :verify_authenticity_token
 
@@ -20,11 +20,6 @@ class MpaController < ApplicationController
     @il = params[:il].present?
     @dupes = params[:dupes].present?
     @missed = params[:missed].present?
-  end
-
-  def handle_options_request
-    puts "Handeling options"
-    head(:ok) if request.request_method == "OPTIONS"
   end
 
   def pept2data
