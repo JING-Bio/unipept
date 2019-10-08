@@ -1,12 +1,7 @@
 class PrivateApiController < ApplicationController
   before_action :default_format_json
-  before_action :set_headers, only: %i[goterms ecnumbers taxa]
+  before_action :set_headers, only: %i[lineages goterms ecnumbers taxa]
   skip_before_action :verify_authenticity_token
-
-  def lineages
-    taxids = params[:taxids] || []
-    @lineages = Lineage.where(taxon_id: taxids)
-  end
 
   # enable cross origin requests
   def set_headers
@@ -15,6 +10,11 @@ class PrivateApiController < ApplicationController
     headers['Access-Control-Allow-Methods'] = 'GET, POST'
     headers['Access-Control-Allow-Headers'] = '*,x-requested-with,Content-Type,If-Modified-Since,If-None-Match'
     headers['Access-Control-Max-Age'] = '86400'
+  end
+
+  def lineages
+    taxids = params[:taxids] || []
+    @lineages = Lineage.where(taxon_id: taxids)
   end
 
   def goterms
