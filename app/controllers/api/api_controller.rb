@@ -1,7 +1,7 @@
 class Api::ApiController < ApplicationController
   respond_to :json
 
-  before_action :disable_api
+  # before_action :disable_api
 
   before_action :set_headers, only: %i[pept2taxa pept2lca pept2prot pept2funct pept2ec pept2go pept2interpro peptinfo taxa2lca taxonomy]
   before_action :set_params, only: %i[pept2taxa pept2lca pept2prot pept2funct pept2ec pept2go pept2interpro peptinfo taxa2lca taxonomy]
