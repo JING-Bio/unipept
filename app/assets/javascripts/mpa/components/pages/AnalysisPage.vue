@@ -16,6 +16,7 @@
                     :disabled="inProgress"
                     :activeAssay="$store.getters.getActiveAssay"
                     :searchConfiguration="$store.getters.getSearchConfiguration"
+                    :communication-source="communicationSource"
                     v-on:update-search-settings="onUpdateSearchSettings">
                 </experiment-summary-card>
                 <load-datasets-card
@@ -28,6 +29,7 @@
         </v-row>
         <single-dataset-visualizations-card
             id="visualizations-card"
+            :communication-source="communicationSource"
             :peptide-count-table="countTable"
             :search-configuration="$store.getters.getSearchConfiguration"
             :analysisInProgress="$store.getters.getAssays.length > 0"
@@ -36,6 +38,7 @@
         </single-dataset-visualizations-card>
         <functional-summary-card
             style="margin-top: 12px;"
+            :communication-source="communicationSource"
             :peptide-count-table="countTable"
             :search-configuration="$store.getters.getSearchConfiguration"
             :analysisInProgress="$store.getters.getAssays.length > 0"
@@ -53,6 +56,8 @@ import SingleDatasetVisualizationsCard from "unipept-web-components/src/componen
 import LoadDatasetsCard from "./../dataset/LoadDatasetsCard.vue";
 import SwitchDatasetsCard from "./../dataset/SwitchDatasetsCard.vue";
 import ExperimentSummaryCard from "unipept-web-components/src/components/analysis/statistics/ExperimentSummaryCard.vue";
+import CommunicationSource from "unipept-web-components/src/business/communication/source/CommunicationSource";
+import DefaultCommunicationSource from "unipept-web-components/src/business/communication/source/DefaultCommunicationSource";
 import ProteomicsAssay from "unipept-web-components/src/business/entities/assay/ProteomicsAssay";
 import SearchConfiguration from "unipept-web-components/src/business/configuration/SearchConfiguration";
 import { CountTable } from "unipept-web-components/src/business/counts/CountTable";
@@ -91,6 +96,7 @@ import { Peptide } from "unipept-web-components/src/business/ontology/raw/Peptid
 })
 export default class AnalysisPage extends Vue {
     private datasetSelectionInProgress: boolean = false;
+    private communicationSource: CommunicationSource = new DefaultCommunicationSource();
 
     created() {
         this.reprocessAssays();

@@ -38,6 +38,7 @@
             <div style="padding-bottom: 16px; padding-left: 16px; padding-right: 16px;">
                 <div class="subtitle-1">Search settings</div>
                 <search-settings-form
+                    :horizontal="false"
                     :equate-il.sync="equateIl"
                     :filter-duplicates.sync="filterDuplicates"
                     :missing-cleavage.sync="missingCleavage"

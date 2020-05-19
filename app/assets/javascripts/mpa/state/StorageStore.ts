@@ -249,7 +249,8 @@ const storageActions: ActionTree<StorageState, any> = {
         );
 
         try {
-            await Pept2DataCommunicator.process(countTable, store.getters.getSearchConfiguration, {
+            const pept2DataCommunicator = new Pept2DataCommunicator();
+            await pept2DataCommunicator.process(countTable, store.getters.getSearchConfiguration, {
                 onProgressUpdate: (progress: number) => processedItem.progress = progress
             });
         } catch (err) {
@@ -258,6 +259,9 @@ const storageActions: ActionTree<StorageState, any> = {
 
         processedItem.countTable = countTable;
         store.commit("UPDATE_PROGRESS");
+
+        console.log("Reset active assay...");
+        console.log(processedItem.progress);
         await store.dispatch("resetActiveAssay");
     },
 
