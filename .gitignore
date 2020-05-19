@@ -40,3 +40,4 @@ coverage/
 
 .devcontainer/unipept-db/data/*
 .vscode/*
+report.*
