@@ -1,7 +1,11 @@
 class PrivateApiController < HandleOptionsController
-  before_action :set_headers, only: %i[goterms ecnumbers interpros taxa proteins]
+  before_action :set_headers, only: %i[goterms ecnumbers interpros taxa proteins version]
   before_action :default_format_json
   skip_before_action :verify_authenticity_token
+
+  def version
+    @uniprot_version = Rails.application.config.versions[:uniprot]
+  end
 
   def goterms
     go_terms = params[:goterms] || []
