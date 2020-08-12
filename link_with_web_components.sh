@@ -9,6 +9,8 @@
 # This script assumes that the unipept-web-components project and the unipept project
 # live in the same parent folder.
 
+cat "./../unipept-web-components/package.json" | jq ".dependencies" | grep -v "^[{|}]" | cut -d":" -f1 | sed "s/^ *//" | xargs npm install --no-save
+
 # First remove previously initiated content
 rm -R node_modules/unipept-web-components
 
